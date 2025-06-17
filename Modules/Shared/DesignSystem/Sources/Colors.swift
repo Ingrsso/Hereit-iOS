@@ -4,9 +4,11 @@ public extension UIColor {
 
     static let primary = UIColor(hex: "#FF3C8D")
     static let secondary = UIColor(hex: "#D1D8DD")
-    static let additionalBackground = UIColor(hex:"F6F6F6")
+    static let additionalBackground = UIColor(hex:"#F6F6F6")
+    static let alert = UIColor(hex:"#F41F52")
     static let gray100 = UIColor(hex:"#171725")
     static let gray90 = UIColor(hex:"#434E58")
+    static let gray70 = UIColor(hex: "#78828A")
     static let gray60 = UIColor(hex:"#9CA4AB")
 
     // convenience init (HEX → UIColor)

@@ -1,91 +1,184 @@
 import UIKit
 import UIComponents
-import SnapKit
 import DesignSystem
 
 final class LoginViewController: UIViewController {
+
+    // MARK: - Properties
+
     private let viewModel: LoginViewModel
 
-    private let stackView = UIStackView()
-    private let emailTextField = InputFieldView()
-    private let passwordTextField = InputFieldView()
-    private let loginButton = ButtonView()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "여기야에 오신 것을 환영합니다"
+        label.font = Typography.headingH4Bold.font
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "로그인하여 다양한 서비스를 이용하세요!"
+        label.font = Typography.body3SemiBold.font
+        label.textColor = .gray90
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var titleAndContentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            titleLabel,
+            subtitleLabel,
+        ])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .fill
+        return stack
+    }()
+
+    private lazy var emailField: InputFieldView = {
+        let field = InputFieldView()
+        field.labelText = "이메일"
+        field.placeholder = "이메일을 입력해주세요!"
+        return field
+    }()
+
+    private lazy var passwordField: InputFieldView = {
+        let field = InputFieldView()
+        field.labelText = "비밀번호"
+        field.placeholder = "비밀번호를 입력해주세요!"
+        field.getTextField().isSecureTextEntry = true
+        return field
+    }()
+
+    private lazy var loginButton: ButtonView = {
+        let button = ButtonView()
+        button.setTitle("로그인", for: .normal)
+        button.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("비밀번호를 잊으셨나요?", for: .normal)
+        button.setTitleColor(.alert, for: .normal)
+        button.titleLabel?.font = Typography.body3Regular.font
+        button.contentHorizontalAlignment = .right
+        button.addTarget(self, action: #selector(didTapForgotPassword), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var registerAccountButton: UIButton = {
+        let button = UIButton()
+        let fullText = "계정이 없으신가요? 회원가입"
+        let attrText = NSMutableAttributedString(string: fullText)
+
+        attrText.addAttribute(.foregroundColor, value: UIColor.gray70!, range: NSRange(location: 0, length: fullText.count))
+        if let range = fullText.range(of: "회원가입") {
+            let nsRange = NSRange(range, in: fullText)
+            attrText.addAttribute(.foregroundColor, value: UIColor.alert!, range: nsRange)
+        }
+        attrText.addAttribute(.font, value: Typography.body2SemiBold.font, range: NSRange(location: 0, length: attrText.length))
+
+        button.setAttributedTitle(attrText, for: .normal)
+        button.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var loginInputFieldContentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            emailField,
+            passwordField,
+            forgotPasswordButton,
+        ])
+        stack.axis = .vertical
+        stack.spacing = 16
+        stack.alignment = .fill
+        return stack
+    }()
+    
+    private lazy var loginButtonContentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            loginButton,
+            registerAccountButton
+        ])
+        stack.axis = .vertical
+        stack.spacing = 16
+        stack.alignment = .fill
+        return stack
+    }()
+
+    private lazy var contentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            titleAndContentStack,
+
+            loginInputFieldContentStack,
+            loginButtonContentStack
+            
+        ])
+        stack.axis = .vertical
+        stack.spacing = 28
+        stack.alignment = .fill
+        return stack
+    }()
+
+    
+    
+
+    // MARK: - Init
 
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        setupConstraints()
-        bind()
-    }
-
-    private func setupUI() {
         view.backgroundColor = .white
-
-        let titleLabel = UILabel()
-        titleLabel.text = "여기야에 오신 것을 환영합니다"
-        titleLabel.font = Typography.headingH4Bold.font
-        titleLabel.textAlignment = .center
-
-        let contentLabel = UILabel()
-        contentLabel.text = "로그인하여 다양한 서비스를 이용하세요!"
-        contentLabel.font = Typography.body3SemiBold.font
-        contentLabel.textColor = .gray90
-        contentLabel.textAlignment = .center
-
-        let titleStack = UIStackView(arrangedSubviews: [titleLabel, contentLabel])
-        titleStack.axis = .vertical
-        titleStack.spacing = 8
-
-        emailTextField.labelText = "이메일"
-        emailTextField.placeholder = "이메일을 입력해주세요!"
-
-        passwordTextField.labelText = "비밀번호"
-        passwordTextField.placeholder = "비밀번호를 입력해주세요!"
-        passwordTextField.getTextField().isSecureTextEntry = true
-
-        loginButton.setTitle("로그인", for: .normal)
-        
-
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-
-        [titleStack, emailTextField, passwordTextField, loginButton].forEach {
-            stackView.addArrangedSubview($0)
-        }
-
-        view.addSubview(stackView)
+        configureViews()
+        activateConstraints()
     }
 
-    private func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(24)
-            $0.centerY.equalToSuperview()
-        }
+    // MARK: - Configure
+
+    private func configureViews() {
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(contentStack)
     }
 
-    private func bind() {
-        loginButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
+    private func activateConstraints() {
+        NSLayoutConstraint.activate([
+            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            contentStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            contentStack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
+
+    // MARK: - Actions
 
     @objc private func didTapLogin() {
-        viewModel.login(
-            email: emailTextField.getTextField().text ?? "",
-            password: passwordTextField.getTextField().text ?? ""
-        )
+        let email = emailField.getTextField().text ?? ""
+        let password = passwordField.getTextField().text ?? ""
+        print("로그인 버튼 클릭됨. 이메일: \(email), 비밀번호: \(password)")
+        viewModel.login(email: email, password: password)
+    }
+
+    @objc private func didTapForgotPassword() {
+        print("비밀번호 찾기 버튼 클릭됨")
+    }
+
+    @objc private func didTapRegister() {
+            print("회원가입 버튼 클릭됨")
     }
 }
 
-// MARK: - Preview -
 #Preview {
     FontRegistrar.registerFont()
-    return LoginViewController(viewModel: LoginViewModel());
+    return LoginViewController(viewModel: LoginViewModel())
 }
