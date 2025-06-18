@@ -10,6 +10,8 @@ public extension UIColor {
     static let gray90 = UIColor(hex:"#434E58")
     static let gray70 = UIColor(hex: "#78828A")
     static let gray60 = UIColor(hex:"#9CA4AB")
+    
+    static let line = UIColor(hex:"#E9EBED")
 
     // convenience init (HEX → UIColor)
     convenience init?(hex: String) {

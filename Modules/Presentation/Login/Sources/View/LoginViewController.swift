@@ -78,11 +78,58 @@ final class LoginViewController: UIViewController {
             let nsRange = NSRange(range, in: fullText)
             attrText.addAttribute(.foregroundColor, value: UIColor.alert!, range: nsRange)
         }
-        attrText.addAttribute(.font, value: Typography.body2SemiBold.font, range: NSRange(location: 0, length: attrText.length))
+        attrText.addAttribute(.font, value: Typography.body3SemiBold.font, range: NSRange(location: 0, length: attrText.length))
 
         button.setAttributedTitle(attrText, for: .normal)
         button.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
         return button
+    }()
+
+    private lazy var dividerWithTextView: UIView = {
+        // MARK: - 라인 생성 -
+        let makeLineView: () -> UIView = {
+            let view = UIView()
+            view.backgroundColor = .line
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }
+
+        let leftLine = makeLineView()
+        let rightLine = makeLineView()
+
+        // MARK: - 텍스트 생성 -
+        let label: UILabel = {
+            let label = UILabel()
+            label.text = "또는"
+            label.font = Typography.body3Regular.font
+            label.textColor = .gray60
+            label.textAlignment = .center
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+
+        // MARK: - 컨테이너 선언 -
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        
+        [leftLine, label, rightLine].forEach { container.addSubview($0) }
+
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+
+            leftLine.trailingAnchor.constraint(equalTo: label.leadingAnchor, constant: -8),
+            leftLine.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            leftLine.widthAnchor.constraint(equalToConstant: 65),
+            leftLine.heightAnchor.constraint(equalToConstant: 1),
+
+            rightLine.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 8),
+            rightLine.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            rightLine.widthAnchor.constraint(equalToConstant: 65),
+            rightLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
+
+        return container
     }()
 
     private lazy var loginInputFieldContentStack: UIStackView = {
@@ -100,7 +147,8 @@ final class LoginViewController: UIViewController {
     private lazy var loginButtonContentStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             loginButton,
-            registerAccountButton
+            registerAccountButton,
+            dividerWithTextView
         ])
         stack.axis = .vertical
         stack.spacing = 16
@@ -111,10 +159,8 @@ final class LoginViewController: UIViewController {
     private lazy var contentStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             titleAndContentStack,
-
             loginInputFieldContentStack,
             loginButtonContentStack
-            
         ])
         stack.axis = .vertical
         stack.spacing = 28
@@ -123,8 +169,6 @@ final class LoginViewController: UIViewController {
     }()
 
     
-    
-
     // MARK: - Init
 
     init(viewModel: LoginViewModel) {
@@ -141,6 +185,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         configureViews()
         activateConstraints()
     }
