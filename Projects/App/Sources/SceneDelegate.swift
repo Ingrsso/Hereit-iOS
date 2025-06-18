@@ -1,7 +1,6 @@
 import UIKit
-import Login
-import DesignSystem
-
+import Shared
+import Presentation
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     

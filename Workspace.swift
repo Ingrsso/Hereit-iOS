@@ -1,9 +1,8 @@
 import ProjectDescription
 
 let workspace = Workspace(
-    name: "hereit",
+    name: "Hereit",
     projects: [
         "Projects/App",
-        "Modules/**"
     ]
 )
