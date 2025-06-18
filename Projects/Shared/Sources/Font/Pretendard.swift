@@ -8,7 +8,7 @@
 import UIKit
 import CoreText
 
-public enum FontRegistrar {
+public enum Pretendard {
     public static func registerFont() {
         guard let fontURLs = Bundle.module.urls(forResourcesWithExtension: "ttf", subdirectory: nil) else {
             print("❌ Font files not found in module bundle")

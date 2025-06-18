@@ -3,7 +3,7 @@ import Shared
 
 class EnterOTPViewController: UIViewController {
     
-    private var viewModel: AuthViewModel
+    
     let email: String
     
     //MARK: title area-
@@ -124,8 +124,7 @@ class EnterOTPViewController: UIViewController {
         return stack
     }()
     
-    init(viewModel: AuthViewModel, email: String) {
-        self.viewModel = viewModel
+    init(email: String) {
         self.email = email
         super.init(nibName: nil, bundle: nil)
     }
@@ -173,8 +172,8 @@ class EnterOTPViewController: UIViewController {
 }
 
 #Preview {
-    FontRegistrar.registerFont()
-    return 	EnterOTPViewController(viewModel: AuthViewModel(), email: "example@email.com")
+    Pretendard.registerFont()
+    return 	EnterOTPViewController(email: "example@email.com")
     
 }
 //
