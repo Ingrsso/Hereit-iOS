@@ -7,6 +7,7 @@ let project = Project(
             name: "AuthDomain",
             destinations: .iOS,
             product: .staticFramework,
+        
             bundleId: "com.hereit.domain.auth",
             infoPlist: .default,
             sources: ["Sources/**"],
