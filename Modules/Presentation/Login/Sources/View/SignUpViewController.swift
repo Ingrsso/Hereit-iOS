@@ -2,7 +2,7 @@ import UIKit
 import UIComponents
 import DesignSystem
 
-final class LoginViewController: UIViewController {
+final class SignUpViewController: UIViewController {
 
     // MARK: - Properties
 
@@ -11,7 +11,7 @@ final class LoginViewController: UIViewController {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "여기야에 오신 것을 환영합니다"
+        label.text = "계정을 만드세요"
         label.font = Typography.headingH4Bold.font
         label.textAlignment = .center
         return label
@@ -19,7 +19,7 @@ final class LoginViewController: UIViewController {
 
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "로그인하여 다양한 서비스를 이용하세요!"
+        label.text = "회원가입하여 다양한 서비스를 이용하세요!"
         label.font = Typography.body3SemiBold.font
         label.textColor = .gray90
         label.textAlignment = .center
@@ -36,7 +36,14 @@ final class LoginViewController: UIViewController {
         stack.alignment = .fill
         return stack
     }()
-
+    
+    private lazy var fullNameField: InputFieldView = {
+        let field = InputFieldView()
+        field.labelText = "이름"
+        field.placeholder = "이름을 입력해주세요!"
+        return field
+    }()
+    
     private lazy var emailField: InputFieldView = {
         let field = InputFieldView()
         field.labelText = "이메일"
@@ -52,45 +59,28 @@ final class LoginViewController: UIViewController {
         return field
     }()
 
-    private lazy var loginButton: ButtonView = {
+    private lazy var signupButton: ButtonView = {
         let button = ButtonView()
-        button.setTitle("로그인", for: .normal)
+        button.setTitle("회원가입", for: .normal)
         button.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
         return button
     }()
 
-    private lazy var forgotPasswordButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("비밀번호를 잊으셨나요?", for: .normal)
-        button.setTitleColor(.alert, for: .normal)
-        button.titleLabel?.font = Typography.body3Regular.font
-        button.contentHorizontalAlignment = .right
-        button.addTarget(self, action: #selector(didTapForgotPassword), for: .touchUpInside)
-        return button
-    }()
 
     private lazy var registerAccountButton: UIButton = {
         let button = UIButton()
-        let fullText = "계정이 없으신가요? 회원가입"
-        let attrText = NSMutableAttributedString(string: fullText)
+        
 
-        attrText.addAttribute(.foregroundColor, value: UIColor.gray70!, range: NSRange(location: 0, length: fullText.count))
-        if let range = fullText.range(of: "회원가입") {
-            let nsRange = NSRange(range, in: fullText)
-            attrText.addAttribute(.foregroundColor, value: UIColor.alert!, range: nsRange)
-        }
-        attrText.addAttribute(.font, value: Typography.body2SemiBold.font, range: NSRange(location: 0, length: attrText.length))
-
-        button.setAttributedTitle(attrText, for: .normal)
+       
         button.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
         return button
     }()
 
     private lazy var loginInputFieldContentStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
+            fullNameField,
             emailField,
             passwordField,
-            forgotPasswordButton,
         ])
         stack.axis = .vertical
         stack.spacing = 16
@@ -100,7 +90,7 @@ final class LoginViewController: UIViewController {
     
     private lazy var loginButtonContentStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
-            loginButton,
+            signupButton,
             registerAccountButton
         ])
         stack.axis = .vertical
@@ -164,10 +154,11 @@ final class LoginViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func didTapLogin() {
+        let fullName = fullNameField.getTextField().text ?? ""
         let email = emailField.getTextField().text ?? ""
         let password = passwordField.getTextField().text ?? ""
-        print("로그인 버튼 클릭됨. 이메일: \(email), 비밀번호: \(password)")
-        viewModel.login(email: email, password: password)
+       
+        viewModel.signup(fullName: fullName, email: email, password: password)
     }
 
     @objc private func didTapForgotPassword() {
@@ -181,5 +172,5 @@ final class LoginViewController: UIViewController {
 
 #Preview {
     FontRegistrar.registerFont()
-    return LoginViewController(viewModel: AuthViewModel())
+    return SignUpViewController(viewModel: AuthViewModel())
 }
