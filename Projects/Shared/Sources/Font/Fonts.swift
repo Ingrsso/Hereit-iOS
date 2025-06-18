@@ -54,41 +54,46 @@ public enum Typography {
     case body3SemiBold
     case body2SemiBold
     case body1SemiBold
+    
+    case tabBarLabel
+
 }
 
 public extension Typography {
     var font: UIFont {
         switch self {
-        case .headingH1Bold: return UIFont.pretendard(.bold, size: 48)
-        case .headingH2Bold: return UIFont.pretendard(.bold, size: 40)
-        case .headingH3Bold: return UIFont.pretendard(.bold, size: 32)
-        case .headingH4Bold: return UIFont.pretendard(.bold, size: 24)
+            case .headingH1Bold: return UIFont.pretendard(.bold, size: 48)
+            case .headingH2Bold: return UIFont.pretendard(.bold, size: 40)
+            case .headingH3Bold: return UIFont.pretendard(.bold, size: 32)
+            case .headingH4Bold: return UIFont.pretendard(.bold, size: 24)
 
-        case .headingH1SemiBold: return UIFont.pretendard(.semibold, size: 48)
-        case .headingH2SemiBold: return UIFont.pretendard(.semibold, size: 40)
-        case .headingH3SemiBold: return UIFont.pretendard(.semibold, size: 32)
-        case .headingH4SemiBold: return UIFont.pretendard(.semibold, size: 24)
-        case .headingH5SemiBold: return UIFont.pretendard(.semibold, size: 20)
-        case .headingH6SemiBold: return UIFont.pretendard(.semibold, size: 16)
+            case .headingH1SemiBold: return UIFont.pretendard(.semibold, size: 48)
+            case .headingH2SemiBold: return UIFont.pretendard(.semibold, size: 40)
+            case .headingH3SemiBold: return UIFont.pretendard(.semibold, size: 32)
+            case .headingH4SemiBold: return UIFont.pretendard(.semibold, size: 24)
+            case .headingH5SemiBold: return UIFont.pretendard(.semibold, size: 20)
+            case .headingH6SemiBold: return UIFont.pretendard(.semibold, size: 16)
+                
+            case .headingH1Medium: return UIFont.pretendard(.medium, size: 48)
+            case .headingH2Medium: return UIFont.pretendard(.medium, size: 40)
+            case .headingH3Medium: return UIFont.pretendard(.medium, size: 32)
+            case .headingH4Medium: return UIFont.pretendard(.medium, size: 24)
+            case .headingH5Medium: return UIFont.pretendard(.medium, size: 20)
+            case .headingH6Medium: return UIFont.pretendard(.medium, size: 18)
+                
+            case .body1Regular: return UIFont.pretendard(.regular, size: 18)
+            case .body2Regular: return UIFont.pretendard(.regular, size: 16)
+            case .body3Regular: return UIFont.pretendard(.regular, size: 14)
+            case .body4Regular: return UIFont.pretendard(.regular, size: 12)
+            case .body5Regular: return UIFont.pretendard(.regular, size: 10)
+                
+            case .body5SemiBold: return UIFont.pretendard(.semibold, size: 10)
+            case .body4SemiBold: return UIFont.pretendard(.semibold, size: 12)
+            case .body3SemiBold: return UIFont.pretendard(.semibold, size: 14)
+            case .body2SemiBold: return UIFont.pretendard(.semibold, size: 16)
+            case .body1SemiBold: return UIFont.pretendard(.semibold, size: 18)
             
-        case .headingH1Medium: return UIFont.pretendard(.medium, size: 48)
-        case .headingH2Medium: return UIFont.pretendard(.medium, size: 40)
-        case .headingH3Medium: return UIFont.pretendard(.medium, size: 32)
-        case .headingH4Medium: return UIFont.pretendard(.medium, size: 24)
-        case .headingH5Medium: return UIFont.pretendard(.medium, size: 20)
-        case .headingH6Medium: return UIFont.pretendard(.medium, size: 18)
-            
-        case .body1Regular: return UIFont.pretendard(.regular, size: 18)
-        case .body2Regular: return UIFont.pretendard(.regular, size: 16)
-        case .body3Regular: return UIFont.pretendard(.regular, size: 14)
-        case .body4Regular: return UIFont.pretendard(.regular, size: 12)
-        case .body5Regular: return UIFont.pretendard(.regular, size: 10)
-            
-        case .body5SemiBold: return UIFont.pretendard(.semibold, size: 10)
-        case .body4SemiBold: return UIFont.pretendard(.semibold, size: 12)
-        case .body3SemiBold: return UIFont.pretendard(.semibold, size: 14)
-        case .body2SemiBold: return UIFont.pretendard(.semibold, size: 16)
-        case .body1SemiBold: return UIFont.pretendard(.semibold, size: 18)
+            case .tabBarLabel: return UIFont.pretendard(.medium, size: 10)
         }
     }
 }

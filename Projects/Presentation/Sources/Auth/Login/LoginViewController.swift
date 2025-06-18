@@ -2,7 +2,6 @@ import UIKit
 import Shared
 
 final class LoginViewController: UIViewController {
-
     // MARK: - Properties
 
     private let viewModel: LoginViewModel
@@ -52,7 +51,7 @@ final class LoginViewController: UIViewController {
     }()
 
     private lazy var loginButton: ButtonView = {
-        let button = ButtonView()
+        let button = ButtonView(.primary!)
         button.setTitle("로그인", for: .normal)
         button.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
         return button
@@ -190,7 +189,7 @@ final class LoginViewController: UIViewController {
         activateConstraints()
     }
 
-    // MARK: - Configure
+    // MARK: - Configure 
 
     private func configureViews() {
         contentStack.translatesAutoresizingMaskIntoConstraints = false

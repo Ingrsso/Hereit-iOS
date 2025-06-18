@@ -38,4 +38,21 @@ public extension UIColor {
             return nil
         }
     }
+    
+    func darker(by percentage: CGFloat = 20.0) -> UIColor {
+        return self.adjust(by: -abs(percentage))
+    }
+    
+    func adjust(by percentage: CGFloat = 20.0) -> UIColor {
+          var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+          if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+              return UIColor(
+                  red: max(red + percentage/100, 0.0),
+                  green: max(green + percentage/100, 0.0),
+                  blue: max(blue + percentage/100, 0.0),
+                  alpha: alpha
+              )
+          }
+          return self
+      }
 }
